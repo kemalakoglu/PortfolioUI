@@ -9,9 +9,6 @@ import FeaturedPost from './FeaturedPost';
 import Main from './Main';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
-import post1 from './blog-post.1.md';
-import post2 from './blog-post.2.md';
-import post3 from './blog-post.3.md';
 import { useAsync } from 'react-async';
 
 const useStyles = makeStyles(theme => ({
@@ -22,35 +19,9 @@ const useStyles = makeStyles(theme => ({
 
 const sections = [];
 
-const mainFeaturedPost = {
-  title: 'Title of a longer featured blog post',
-  description:
-    "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.",
-  image: 'https://source.unsplash.com/random',
-  imgText: 'main image description',
-  linkText: 'Continue reading…',
-};
+const featuredPosts = [];
 
-const featuredPosts = [
-  {
-    title: 'Featured post',
-    date: 'Nov 12',
-    description:
-      'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    image: 'https://source.unsplash.com/random',
-    imageText: 'Image Text',
-  },
-  {
-    title: 'Post title',
-    date: 'Nov 11',
-    description:
-      'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    image: 'https://source.unsplash.com/random',
-    imageText: 'Image Text',
-  },
-];
-
-const posts = [post1, post2, post3];
+const posts = [];
 
 const sidebar = {
   title: 'About',
@@ -73,20 +44,50 @@ const sidebar = {
   ],
 };
 
- const GetMenu = async() =>
-  await fetch('https://localhost:44364/api/RefType/GetRefTypesByParent?parentId=1')
+ const GetHomeData = async() =>
+  await fetch('https://localhost:44364/api/Blog/GetHomeData')
       .then(res => (res.ok ? res : Promise.reject(res)))
-      .then(res => res.json())
+      .then(res => res.json());
 
 export default function Blog() {
   const classes = useStyles();
 
-  const { data, error, isLoading } = useAsync({ promiseFn: GetMenu})
-  if (isLoading) return "Loading..."
-  if (error) return `Something went wrong: ${error.message}`
+  const { data, error, isLoading } = useAsync({ promiseFn: GetHomeData});
+  if (isLoading) return "Loading...";
+  if (error) return `Something went wrong: ${error.message}`;
   if (data){
-    data.data.forEach(function(item){
+    data.data.sections.forEach(function(item){
       sections.push({ title: item.name , url: '#' })});
+
+    const mainFeaturedPost = {
+        title: data.data.featuredPosts[0].name,
+        description:data.data.featuredPosts[0].value.substr(0,100),
+        imgText: data.data.featuredPosts[0].name,
+        image: 'https://images.unsplash.com/photo-1576521532404-5a3a80dc3937?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max',
+        linkText: 'Continue reading…',
+      };
+
+    data.data.featuredPosts.forEach(function (item) {
+      featuredPosts.push(  {
+            title: item.name,
+            date: item.updateDate,
+            description: item.value.substr(0,100),
+            image: 'https://source.unsplash.com/random',
+            imageText: 'Image Text',
+          });
+
+    });
+
+    data.data.latestPosts.forEach(function (item) {
+      posts.push({
+        title: item.name,
+        date: item.updateDate,
+        description: item.value,
+        image: 'https://source.unsplash.com/random',
+        imageText: 'Image Text',
+      });
+    });
+
     return (
         <React.Fragment>
           <CssBaseline />
@@ -100,13 +101,15 @@ export default function Blog() {
                 ))}
               </Grid>
               <Grid container spacing={5} className={classes.mainGrid}>
-                <Main title="Latest Posts" posts={posts} />
+                {posts.map(post => (
+                    <Main title={post.title} description={post.description} key={post.title} posts={posts}/>
+                ))}
                 <Sidebar
-                    title={sidebar.title}
-                    description={sidebar.description}
-                    archives={sidebar.archives}
-                    social={sidebar.social}
-                />
+                  title={sidebar.title}
+                  description={sidebar.description}
+                  archives={sidebar.archives}
+                  social={sidebar.social}
+              />
               </Grid>
             </main>
           </Container>
