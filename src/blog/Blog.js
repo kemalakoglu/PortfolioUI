@@ -17,11 +17,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const sections = [];
+var sections = [];
 
-const featuredPosts = [];
+var featuredPosts = [];
 
-const posts = [];
+var posts = [];
 
 const sidebar = {
   title: 'About',
@@ -56,15 +56,22 @@ export default function Blog() {
   if (isLoading) return "Loading...";
   if (error) return `Something went wrong: ${error.message}`;
   if (data){
-    data.data.sections.forEach(function(item){
+
+      sections = [];
+      featuredPosts = [];
+      posts = [];
+
+      data.data.sections.forEach(function(item){
       sections.push({ title: item.name , url: '#' })});
 
+
     const mainFeaturedPost = {
-        title: data.data.featuredPosts[0].name,
+        title: data.data.featuredPosts[0].description,
         description:data.data.featuredPosts[0].value.substr(0,100),
         imgText: data.data.featuredPosts[0].name,
         image: 'https://images.unsplash.com/photo-1576521532404-5a3a80dc3937?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max',
         linkText: 'Continue reading…',
+        link:'Page?id='+data.data.featuredPosts[0].id,
       };
 
     data.data.featuredPosts.forEach(function (item) {
@@ -72,8 +79,10 @@ export default function Blog() {
             title: item.name,
             date: item.updateDate,
             description: item.value.substr(0,100),
-            image: 'https://source.unsplash.com/random',
-            imageText: 'Image Text',
+            image: item.image,
+            imageText: item.imageText,
+          linkText: 'Continue reading…',
+          link:'Page?id='+item.id,
           });
 
     });
@@ -83,8 +92,10 @@ export default function Blog() {
         title: item.name,
         date: item.updateDate,
         description: item.value,
-        image: 'https://source.unsplash.com/random',
-        imageText: 'Image Text',
+        image: item.image,
+        imageText: item.imageText,
+          linkText: 'Continue reading…',
+          link:'Page?id='+item.id,
       });
     });
 
@@ -97,19 +108,24 @@ export default function Blog() {
               <MainFeaturedPost post={mainFeaturedPost} />
               <Grid container spacing={4}>
                 {featuredPosts.map(post => (
-                    <FeaturedPost key={post.title} post={post} />
+                    <FeaturedPost key={post.description} post={post} />
                 ))}
               </Grid>
-              <Grid container spacing={5} className={classes.mainGrid}>
+              <Grid container className={classes.mainGrid}>
+
+                  <Grid xs={12} md={9}>
                 {posts.map(post => (
-                    <Main title={post.title} description={post.description} key={post.title} posts={posts}/>
+                    <Main title={post.title} description={post.description} key={post.title} link={post.link} linkText={post.linkText} posts={posts}/>
                 ))}
-                <Sidebar
-                  title={sidebar.title}
-                  description={sidebar.description}
-                  archives={sidebar.archives}
-                  social={sidebar.social}
-              />
+
+                  </Grid>
+                  <Sidebar
+                      title={sidebar.title}
+                      description={sidebar.description}
+                      archives={sidebar.archives}
+                      social={sidebar.social}/>
+
+
               </Grid>
             </main>
           </Container>

@@ -38,15 +38,15 @@ export default function FeaturedPost(props) {
                 {post.date}
               </Typography>
               <Typography variant="subtitle1" paragraph>
-                {post.description}
+                {post.name}
               </Typography>
               <Typography variant="subtitle1" color="primary">
-                Continue reading...
+                <a href={post.link}>Continue reading...</a>
               </Typography>
             </CardContent>
           </div>
           <Hidden xsDown>
-            <CardMedia className={classes.cardMedia} image={post.image} title={post.imageTitle} />
+            <CardMedia className={classes.cardMedia} image={post.image} title={post.imageText} />
           </Hidden>
         </Card>
       </CardActionArea>
