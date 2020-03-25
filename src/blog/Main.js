@@ -5,8 +5,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Markdown from './Markdown';
 import ReactHtmlParser from 'react-html-parser';
-import CardContent from "./FeaturedPost";
-import Link from "./MainFeaturedPost";
 
 
 const useStyles = makeStyles(theme => ({

@@ -17,30 +17,27 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-var sections = [];
+let sections = [];
 
-var featuredPosts = [];
+let featuredPosts = [];
 
-var posts = [];
+let posts = [];
+
+let archives = [];
 
 const sidebar = {
   title: 'About',
   description:
-    'Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.',
-  archives: [
-    { title: 'March 2020', url: '#' },
-    { title: 'February 2020', url: '#' },
-    { title: 'January 2020', url: '#' },
-    { title: 'November 1999', url: '#' },
-    { title: 'October 1999', url: '#' },
-    { title: 'September 1999', url: '#' },
-    { title: 'August 1999', url: '#' },
-    { title: 'July 1999', url: '#' },
-    { title: 'June 1999', url: '#' },
-    { title: 'May 1999', url: '#' },
-    { title: 'April 1999', url: '#' },
-  ],
+    'I have been working as software development specialist at Turkish Airlines since February 2019.\n' +
+      '\n' +
+      'I graduated from Ankara University Faculty of Education Science in 2012 and started my proffesional carrier as a IT teacher in Ankara University Anatolian Vocational High School in 2013. I had worked Uz Consulting(2014-2014) , Pro-line (2014-2016), Enocta (2016-2016) and Innova IT Solutions (2016-2019) as software engineer before.\n' +
+      '\n' +
+      'Specialties: Web Development, Agile, Software Development, Documentation ',
   social: [
+      { name: 'LinkedIn', url: 'https://www.linkedin.com/in/kemalakoglu/' },
+      { name: 'GitHub', url: 'https://github.com/kemalakoglu' },
+      { name: 'HackerRank', url: 'https://www.hackerrank.com/kemalakoglu' },
+      { name: 'Medium', url: 'https://medium.com/@kemal.akoglu01' }
   ],
 };
 
@@ -61,9 +58,12 @@ export default function Blog() {
       featuredPosts = [];
       posts = [];
 
-      data.data.sections.forEach(function(item){
-      sections.push({ title: item.name , url: '#' })});
-
+      data.data.sections.forEach(function (item) {
+          if(item.name=="Home")
+              sections.push({title: item.name, url: '/#'})
+          else
+              sections.push({title: item.name, url: 'Content?Id=' + item.id})
+      });
 
     const mainFeaturedPost = {
         title: data.data.featuredPosts[0].description,
@@ -99,6 +99,10 @@ export default function Blog() {
       });
     });
 
+    data.data.archives.forEach(function (item) {
+       archives.push(    { title: item.title, url: item.url },)
+    });
+
     return (
         <React.Fragment>
           <CssBaseline />
@@ -122,7 +126,7 @@ export default function Blog() {
                   <Sidebar
                       title={sidebar.title}
                       description={sidebar.description}
-                      archives={sidebar.archives}
+                      archives={archives}
                       social={sidebar.social}/>
 
 

@@ -6,6 +6,8 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './theme';
 import Blog from "./blog/Blog";
 import Page from "./blog/Page";
+import Content from "./blog/Content";
+import Archive from "./blog/Archive";
 
 const routing = (
     <ThemeProvider theme={theme}>
@@ -14,6 +16,8 @@ const routing = (
         <Router>
                 <Route exact path="/" component={Blog} />
                 <Route path="/Page/" component={Page} />
+                <Route path="/Content/" component={Content} />
+                <Route path="/Archive/" component={Archive}/>
         </Router>
     </ThemeProvider>
 );

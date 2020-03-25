@@ -6,7 +6,7 @@ import {useAsync} from "react-async";
 import {makeStyles} from "@material-ui/core";
 import CustomHeader from "./CustomHeader";
 import ReactHtmlParser from "react-html-parser";
-import Grid from "./Blog";
+import Header from "./Header";
 
 function getUrlVars() {
 
@@ -41,11 +41,6 @@ const GetById = async () =>
         .then(res => (res.ok ? res : Promise.reject(res)))
         .then(res => res.json());
 
-const GetHomeData = async () =>
-    await fetch('https://localhost:44364/api/Blog/GetHomeData')
-        .then(res => (res.ok ? res : Promise.reject(res)))
-        .then(res => res.json());
-
 export default function Page() {
     const classes = useStyles();
     menus = [];
@@ -53,14 +48,18 @@ export default function Page() {
     if (isLoading) return "Loading...";
     if (error) return `Something went wrong: ${error.message}`;
     if (data) {
-        data.data.sections.forEach(function(item){
-            menus.push({ title: item.name , url: '#' })});
+        data.data.sections.forEach(function (item) {
+            if(item.name=="Home")
+                menus.push({title: item.name, url: '/#'})
+            else
+                menus.push({title: item.name, url: 'Content?Id=' + item.id})
+        });
 
         return (
             <React.Fragment>
                 <CssBaseline/>
                 <Container maxWidth="lg">
-                    <CustomHeader mainTitle="Kemal Akoglu" menus={menus}/>
+                    <Header title="Kemal Akoglu" sections={menus}/>
                     <h1>{ReactHtmlParser(data.data.content.description)}</h1>
                     {ReactHtmlParser(data.data.content.value)}
                 </Container>

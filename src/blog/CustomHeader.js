@@ -54,7 +54,7 @@ export default function CustomHeader(props) {
             noWrap
             key={section.title}
             variant="body2"
-            href = {"http://localhost:3000/" + section.url}
+            href = {'Content?Id='+ section.url}
             className={classes.toolbarLink}
           >
             {section.title}
