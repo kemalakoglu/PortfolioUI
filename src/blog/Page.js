@@ -4,7 +4,6 @@ import Container from '@material-ui/core/Container';
 import Footer from './Footer';
 import {useAsync} from "react-async";
 import {makeStyles} from "@material-ui/core";
-import CustomHeader from "./CustomHeader";
 import ReactHtmlParser from "react-html-parser";
 import Header from "./Header";
 
@@ -37,7 +36,7 @@ const useStyles = makeStyles(theme => ({
 var menus = [];
 
 const GetById = async () =>
-    await fetch('https://localhost:44364/api/Blog/GetById?Id=' + getUrlVars()["id"])
+    await fetch('http://localhost:8080/api/Blog/GetById?Id=' + getUrlVars()["id"])
         .then(res => (res.ok ? res : Promise.reject(res)))
         .then(res => res.json());
 
@@ -49,7 +48,7 @@ export default function Page() {
     if (error) return `Something went wrong: ${error.message}`;
     if (data) {
         data.data.sections.forEach(function (item) {
-            if(item.name=="Home")
+            if(item.name==="Home")
                 menus.push({title: item.name, url: '/#'})
             else
                 menus.push({title: item.name, url: 'Content?Id=' + item.id})

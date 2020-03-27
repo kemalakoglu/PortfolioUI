@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 
 
 const GetRefValuesByRefTypeId = async () =>
-    await fetch('https://localhost:44364/api/Blog/GetRefValueForBlogsByRefTypeId?Id=' + getUrlVars()["Id"])
+    await fetch('http://localhost:8080/api/Blog/GetRefValueForBlogsByRefTypeId?Id=' + getUrlVars()["Id"])
         .then(res => (res.ok ? res : Promise.reject(res)))
         .then(res => res.json());
 
@@ -53,7 +53,7 @@ export default function Content() {
     if (error) return `Something went wrong: ${error.message}`;
     if (data) {
         data.data.sections.forEach(function (item) {
-            if(item.name=="Home")
+            if(item.name==="Home")
                 sections.push({title: item.name, url: '/#'})
             else
                 sections.push({title: item.name, url: 'Content?Id=' + item.id})

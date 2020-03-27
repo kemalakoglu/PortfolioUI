@@ -15,9 +15,9 @@ const routing = (
         <CssBaseline />
         <Router>
                 <Route exact path="/" component={Blog} />
-                <Route path="/Page/" component={Page} />
-                <Route path="/Content/" component={Content} />
-                <Route path="/Archive/" component={Archive}/>
+                <Route path="/Page" component={Page} />
+                <Route path="/Content" component={Content} />
+                <Route path="/Archive" component={Archive}/>
         </Router>
     </ThemeProvider>
 );

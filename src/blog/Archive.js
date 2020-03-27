@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 
 
 const GetRefValueForBlogsByArchive = async () =>
-    await fetch('https://localhost:44364/api/Blog/GetRefValueForBlogsByArchive?Year='+getUrlVars()["Year"]+'&Month='+getUrlVars()["Month"])
+    await fetch('http://localhost:8080/api/Blog/GetRefValueForBlogsByArchive?Year='+getUrlVars()["Year"]+'&Month='+getUrlVars()["Month"])
         .then(res => (res.ok ? res : Promise.reject(res)))
         .then(res => res.json());
 
@@ -53,7 +53,7 @@ export default function Archive() {
     if (error) return `Something went wrong: ${error.message}`;
     if (data) {
         data.data.sections.forEach(function (item) {
-            if(item.name=="Home")
+            if(item.name==="Home")
                 sections.push({title: item.name, url: '/#'})
             else
                 sections.push({title: item.name, url: 'Content?Id=' + item.id})

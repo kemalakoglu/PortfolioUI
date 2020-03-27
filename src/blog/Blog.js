@@ -42,7 +42,7 @@ const sidebar = {
 };
 
  const GetHomeData = async() =>
-  await fetch('https://localhost:44364/api/Blog/GetHomeData')
+  await fetch('http://localhost:8080/api//Blog/GetHomeData')
       .then(res => (res.ok ? res : Promise.reject(res)))
       .then(res => res.json());
 
@@ -59,7 +59,7 @@ export default function Blog() {
       posts = [];
 
       data.data.sections.forEach(function (item) {
-          if(item.name=="Home")
+          if(item.name==="Home")
               sections.push({title: item.name, url: '/#'})
           else
               sections.push({title: item.name, url: 'Content?Id=' + item.id})

@@ -1,7 +1,7 @@
 {
-  "name": "create-react-app",
+  "name": "kemal-akoglu-portfolio-app",
   "version": "4.0.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -29,5 +29,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-build-dist": "^0.0.8"
   }
 }
