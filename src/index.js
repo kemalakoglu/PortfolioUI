@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './theme';
@@ -15,9 +15,9 @@ const routing = (
         <CssBaseline />
         <Router>
                 <Route exact path="/" component={Blog} />
-                <Route path="/Page" component={Page} />
-                <Route path="/Content" component={Content} />
-                <Route path="/Archive" component={Archive}/>
+                <Route exact path="/Page" component={Page} />
+                <Route exact path="/Content" component={Content} />
+                <Route exact path="/Archive" component={Archive}/>
         </Router>
     </ThemeProvider>
 );
